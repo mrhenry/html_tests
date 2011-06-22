@@ -112,7 +112,7 @@ $(function(){
     }
     
     $($mouse.eventStartedIn).trigger(
-    { type:"gesture:tap"
+    { type:"gesture_tap"
     });
   };
   
@@ -124,7 +124,7 @@ $(function(){
     $mouse.lastTimeStamp = e.timeStamp;
     
     $($mouse.eventStartedIn).trigger(
-    { type: "gesture:swipe:start"
+    { type: "gesture_swipe_start"
     , over: e.target
     });
   };
@@ -134,7 +134,7 @@ $(function(){
     ;
     
     _s =
-    { type:   "gesture:swipe:continue"
+    { type:   "gesture_swipe_continue"
     , over:   e.target
     , deltaT: e.timeStamp - $mouse.lastTimeStamp
     , deltaX: e.screenX   - $mouse.screenX
@@ -158,9 +158,25 @@ $(function(){
   
   _swipe_end = function(e){
     $($mouse.eventStartedIn).trigger(
-    { type: "gesture:swipe:end"
+    { type: "gesture_swipe_end"
     , over: e.target
     });
+  };
+  
+  $.fn.gesture_tap = function(clb){
+    return this.bind('gesture_tap', clb);
+  };
+  
+  $.fn.gesture_swipe_start = function(clb){
+    return this.bind('gesture_swipe_start', clb);
+  };
+  
+  $.fn.gesture_swipe_continue = function(clb){
+    return this.bind('gesture_swipe_continue', clb);
+  };
+  
+  $.fn.gesture_swipe_end = function(clb){
+    return this.bind('gesture_swipe_end', clb);
   };
   
   $(function(){
@@ -171,33 +187,34 @@ $(function(){
       .mouseup(_mouse_up);
     
     $('a')
-    .bind('click', _click);
+      .bind('click', _click);
     
   });
   
-}($));
+}(jQuery));
+
 
 $(function(){
   var sourceElement
   ;
   
-  $('#container').bind('gesture:swipe:start', function(e){
-    console.log("gesture:swipe:start", e);
+  $('#container').gesture_swipe_start(function(e){
+    console.log("gesture_swipe_start", e);
   });
   
-  $('#container').bind('gesture:swipe:continue', function(e){
-    console.log("gesture:swipe:continue", e);
+  $('#container').gesture_swipe_continue(function(e){
+    console.log("gesture_swipe_continue", e);
   });
   
-  $('#container').bind('gesture:swipe:end', function(e){
-    console.log("gesture:swipe:end", e);
+  $('#container').gesture_swipe_end(function(e){
+    console.log("gesture_wipe_end", e);
   });
   
-  $('#container').bind('gesture:tap', function(e){
-    console.log("gesture:tap", e);
+  $('#container').gesture_tap(function(e){
+    console.log("gesture_tap", e);
   });
   
-  $('a').bind('click', function(e){
+  $('a').click(function(e){
     console.log("click", e);
   });
   
