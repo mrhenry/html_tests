@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>untitled</title>
+  
+  <style type="text/css" media="screen">
+
+#container {
+  border: 1px dashed red;
+  background-color: #eee;
+  width: 250px;
+  height: 250px;
+}
+
+  </style>
+  
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  
+  <script src="_lib/md.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+
+$(function(){
+  $('#description').html(new Showdown.converter().makeHtml($('#description').text()));
+});
+
+</script>
+  
+  
+  <script type="text/javascript" charset="utf-8">
+
+(function($){
+  var _mouse_down
+  ,   _mouse_up
+  ,   _mouse_move
+  ,   _click
+  ;
+  
+  var _tap
+  ,   _swipe_start
+  ,   _swipe_continue
+  ,   _swipe_end
+  ;
+  
+  var $mouse
+  ,   $last_mouse
+  ,   $default_mouse
+  ;
+  
+  $default_mouse =
+  { down:           false
+  , moved:          false
+  , swiping:        false
+  , downSince:      null
+  , eventStartedIn: null
+  };
+  
+  $mouse = $.extend({}, $default_mouse);
+  
+  _mouse_down = function(e){
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    
+    $mouse = $.extend({}, $default_mouse);
+    $mouse.down           = true;
+    $mouse.downSince      = e.timeStamp;
+    $mouse.eventStartedIn = e.target;
+  };
+  
+  _mouse_up = function(e){
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    
+    if ($mouse.moved){
+      _swipe_end(e);
+    } else {
+      _tap(e);
+    }
+    
+    $last_mouse = $mouse;
+    $mouse = $.extend({}, $default_mouse);
+  };
+  
+  _mouse_move = function(e){
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    
+    if ($mouse.down){
+      $mouse.moved = true;
+      
+      if ($mouse.swiping) {
+        _swipe_continue(e);
+      } else {
+        $mouse.swiping = true;
+        _swipe_start(e);
+      }
+    }
+  };
+  
+  _click = function(e){
+    if ($last_mouse.moved || $last_mouse.eventStartedIn.localName != 'a') {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+    }
+  };
+  
+  _tap = function(e){
+    if (e.target != $mouse.eventStartedIn) {
+      return;
+    }
+    
+    $($mouse.eventStartedIn).trigger(
+    { type:"gesture:tap"
+    });
+  };
+  
+  _swipe_start = function(e){
+    $mouse.screenX       = e.screenX;
+    $mouse.screenY       = e.screenY;
+    $mouse.speedX        = 0;
+    $mouse.speedY        = 0;
+    $mouse.lastTimeStamp = e.timeStamp;
+    
+    $($mouse.eventStartedIn).trigger(
+    { type: "gesture:swipe:start"
+    , over: e.target
+    });
+  };
+  
+  _swipe_continue = function(e){
+    var _s
+    ;
+    
+    _s =
+    { type:   "gesture:swipe:continue"
+    , over:   e.target
+    , deltaT: e.timeStamp - $mouse.lastTimeStamp
+    , deltaX: e.screenX   - $mouse.screenX
+    , deltaY: e.screenY   - $mouse.screenY
+    };
+    
+    _s.speedX = _s.deltaX / _s.deltaT;
+    _s.speedY = _s.deltaY / _s.deltaT;
+    
+    if (Math.abs(_s.deltaX) > Math.abs(_s.deltaY)) {
+      _s.direction = (_s.deltaX > 0 ? 'right' : 'left');
+    } else {
+      _s.direction = (_s.deltaY > 0 ? 'down' : 'up');
+    }
+    
+    $($mouse.eventStartedIn).trigger(_s);
+    
+    $mouse.screenX = e.screenX;
+    $mouse.screenY = e.screenY;
+  };
+  
+  _swipe_end = function(e){
+    $($mouse.eventStartedIn).trigger(
+    { type: "gesture:swipe:end"
+    , over: e.target
+    });
+  };
+  
+  $(function(){
+    
+    $(document)
+      .mousedown(_mouse_down)
+      .mousemove(_mouse_move)
+      .mouseup(_mouse_up);
+    
+    $('a')
+    .bind('click', _click);
+    
+  });
+  
+}($));
+
+$(function(){
+  var sourceElement
+  ;
+  
+  $('#container').bind('gesture:swipe:start', function(e){
+    console.log("gesture:swipe:start", e);
+  });
+  
+  $('#container').bind('gesture:swipe:continue', function(e){
+    console.log("gesture:swipe:continue", e);
+  });
+  
+  $('#container').bind('gesture:swipe:end', function(e){
+    console.log("gesture:swipe:end", e);
+  });
+  
+  $('#container').bind('gesture:tap', function(e){
+    console.log("gesture:tap", e);
+  });
+  
+  $('a').bind('click', function(e){
+    console.log("click", e);
+  });
+  
+});
+
+
+  </script>
+</head>
+<body>
+
+<div id="description">
+
+# Mouse handlers
+
+when is mouse up/down called in relation to click and is it possible to convert these events into gestures.
+
+Emulated guestures:
+
+- tap
+- swipe
+
+Events:
+
+- ontap
+- onstartswipe
+- oncontinueswipe
+- onendswipe
+
+</div>
+
+<div id="container">
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <a href="javascript:alert('hello')">Duis aute irure</a> dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  
+</div>
+
+</body>
+</html>
