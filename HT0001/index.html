@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>HT0001</title>
+  
+  
+  <script src="../_lib/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../_lib/md.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../_lib/index.js" type="text/javascript" charset="utf-8"></script>
+  
+  
+  <script src="gestures.js" type="text/javascript" charset="utf-8"></script>
+  
+  <style type="text/css" media="screen">
+
+#container {
+  border: 1px dashed red;
+  background-color: #eee;
+  width: 250px;
+  height: 250px;
+}
+
+  </style>
+  
+  <script type="text/javascript" charset="utf-8">
+
+$(function(){
+  var sourceElement
+  ;
+  
+  $('#container').gesture_swipe_start(function(e){
+    console.log("gesture_swipe_start", e);
+  });
+  
+  $('#container').gesture_swipe_continue(function(e){
+    console.log("gesture_swipe_continue", e);
+  });
+  
+  $('#container').gesture_swipe_end(function(e){
+    console.log("gesture_wipe_end", e);
+  });
+  
+  $('#container').gesture_tap(function(e){
+    console.log("gesture_tap", e);
+  });
+  
+  $('a').click(function(e){
+    console.log("click", e);
+  });
+  
+});
+
+
+  </script>
+</head>
+<body>
+
+<div id="description">
+
+# Mouse handlers
+
+when is mouse up/down called in relation to click and is it possible to convert these events into gestures.
+
+Emulated guestures:
+
+- tap
+- swipe
+
+Events:
+
+- ontap
+- onstartswipe
+- oncontinueswipe
+- onendswipe
+
+</div>
+
+<div id="container">
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <a href="javascript:alert('hello')">Duis aute irure</a> dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  
+</div>
+
+</body>
+</html>
