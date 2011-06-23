@@ -27,6 +27,9 @@
   $mouse = $.extend({}, $default_mouse);
   
   _mouse_down = function(e){
+    if (e.target.localName == 'textarea') { return; }
+    if (e.target.localName == 'input')    { return; }
+    
     e.stopImmediatePropagation();
     e.preventDefault();
     
@@ -37,6 +40,9 @@
   };
   
   _mouse_up = function(e){
+    if (e.target.localName == 'textarea') { return; }
+    if (e.target.localName == 'input')    { return; }
+    
     e.stopImmediatePropagation();
     e.preventDefault();
     
