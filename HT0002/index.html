@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>HT0002</title>
+  
+  
+  <script src="../_lib/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../_lib/md.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../_lib/index.js" type="text/javascript" charset="utf-8"></script>
+  
+  
+  <script src="../HT0001/gestures.js" type="text/javascript" charset="utf-8"></script>
+  <script src="keyboard.js" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" href="keyboard.css" type="text/css" media="screen" title="no title" charset="utf-8">
+  
+
+  <style type="text/css" media="screen">
+
+#container {
+  border: 1px dashed red;
+  background-color: #eee;
+  width: 250px;
+  height: 250px;
+}
+
+.kb-container {
+  margin: 50px;
+  font-family: "futura-pt-1","futura-pt-2";
+}
+
+.kb-container .kb-key {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.kb-container .kb-key-down {
+  background-color: #ddd;
+}
+
+.kb-container.kb-shift-down .kb-key-name-shift {
+  background-color: blue;
+}
+
+  </style>
+  
+  <script type="text/javascript" charset="utf-8">
+
+$(function(){
+  $.keyboard({ layout: 'azerty'})
+    .appendTo($('body'))
+    .keyboard_key_press(
+      function(e){
+        var t
+        ,   s, b, a, i
+        ;
+        
+        t = $('#text')[0];
+        i = t.selectionStart;
+        s = t.value;
+        
+        if (i !== undefined) {
+          b = s.substr(0, i);
+          a = s.substr(t.selectionEnd);
+        } else {
+          b = s;
+          a = "";
+          i = s.length;
+        }
+        
+        t.value = (b + e.key + a);
+        t.selectionStart = t.selectionEnd = (i + 1);
+      })
+    .keyboard_return(
+      function(e){
+        $('#text').blur();
+      })
+    .keyboard_delete(
+      function(e){
+        var t
+        ,   s, b, a, l
+        ,   i
+        ;
+        
+        t = $('#text')[0];
+        i = t.selectionStart;
+        s = t.value;
+        
+        if (i !== undefined) {
+          b = s.substr(0, i);
+          a = s.substr(t.selectionEnd);
+          l = t.selectionEnd - i;
+        } else {
+          b = s;
+          a = "";
+          l = 0;
+          i = s.length;
+        }
+        
+        if (l === 0) {
+          i -= 1;
+          b = s.substr(0, b.length - 1);
+        }
+        
+        t.value = (b + a);
+        t.selectionStart = t.selectionEnd = i;
+      })
+    ;
+  $.keyboard({ layout: 'qwerty', capture_return: false })
+    .appendTo($('body'))
+    .keyboard_key_press(
+      function(e){
+        var t
+        ,   s, b, a, i
+        ;
+        
+        t = $('#text')[0];
+        i = t.selectionStart;
+        s = t.value;
+        
+        if (i !== undefined) {
+          b = s.substr(0, i);
+          a = s.substr(t.selectionEnd);
+        } else {
+          b = s;
+          a = "";
+          i = s.length;
+        }
+        
+        t.value = (b + e.key + a);
+        t.selectionStart = t.selectionEnd = (i + 1);
+      })
+    .keyboard_return(
+      function(e){
+        $('#text').blur();
+      })
+    .keyboard_delete(
+      function(e){
+        var t
+        ,   s, b, a, l
+        ,   i
+        ;
+        
+        t = $('#text')[0];
+        i = t.selectionStart;
+        s = t.value;
+        
+        if (i !== undefined) {
+          b = s.substr(0, i);
+          a = s.substr(t.selectionEnd);
+          l = t.selectionEnd - i;
+        } else {
+          b = s;
+          a = "";
+          l = 0;
+          i = s.length;
+        }
+        
+        if (l === 0) {
+          i -= 1;
+          b = s.substr(0, b.length - 1);
+        }
+        
+        t.value = (b + a);
+        t.selectionStart = t.selectionEnd = i;
+      })
+    ;
+});
+
+  </script>
+</head>
+<body>
+
+<div id="description">
+
+# Gesture based keyboard
+
+</div>
+
+<textarea id="text"></textarea>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+
+
+.kb-container {
+  width: 488px;  /* (11 * key-w) + (10 * margin-w) */
+  height: 140px; /* ( 4 * key-h) + ( 3 * margin-h) */
+}
+
+.kb-container .kb-row {
+  height:        32px; /* key-h */
+  margin-bottom: 4px;  /* margin-h */
+}
+
+.kb-container .kb-key {
+  width:  32px;       /* key-w */
+  height: 32px;       /* key-h */
+  margin-right: 4px;  /* margin-w */
+  line-height: 32px;  /* key-h */
+}
+
+.kb-container.kb-layout-azerty .kb-alpha-pad .kb-row-idx-2 {
+  margin-left: 16px; /* (key-w / 2) */
+}
+
+.kb-container.kb-layout-azerty .kb-alpha-pad .kb-key-name-delete {
+  margin-left: 56px; /* (key-w * 2) - (margin-w * 2) */
+}
+
+.kb-container.kb-layout-qwerty .kb-alpha-pad .kb-row-idx-1 {
+  margin-left: 16px; /* (key-w / 2) */
+}
+
+.kb-container.kb-layout-qwerty .kb-alpha-pad .kb-row-idx-2 {
+  margin-left: 32px; /* key-w */
+}
+
+.kb-container.kb-layout-qwerty .kb-alpha-pad .kb-key-name-delete {
+  margin-left: 4px; /* key-w */
+}
+
+.kb-container .kb-alpha-pad .kb-key-name-shift {
+  width: 68px; /* (2 * key-w) + (1 * margin-w) */
+}
+
+.kb-container .kb-alpha-pad .kb-key-name-return {
+  width: 68px; /* (2 * key-w) + (1 * margin-w) */
+}
+
+.kb-container .kb-alpha-pad .kb-key-name-delete {
+  width: 68px; /* (2 * key-w) + (1 * margin-w) */
+}
+
+.kb-container .kb-alpha-pad .kb-key-name-space {
+  width: 212px; /* (6 * key-w) + (5 * margin-w) */
+}
+
+.kb-container .kb-numer-pad .kb-key-name-0 {
+  width: 104px; /* (3 * key-w) + (2 * margin-w) */
+}
+
+
+
+.kb-container {
+  position: relative;
+}
+
+.kb-container .kb-key {
+  float: left;
+  text-align:center;
+}
+
+.kb-container .kb-numer-pad {
+  position: absolute;
+  top:   0;
+  right: 0;
+}
+
