@@ -1,0 +1,77 @@
+$key_width    : 32px;
+$key_height   : 32px;
+$key_margin_h : 4px;
+$key_margin_v : 4px;
+
+.kb-container {
+  width:  (11 * $key_width ) + (10 * $key_margin_h);
+  height: ( 4 * $key_height) + ( 3 * $key_margin_v);
+  position: relative;
+
+  .kb-row {
+    height:        $key_height;
+    margin-bottom: $key_margin_v;
+  }
+  
+  .kb-key {
+    width:        $key_width;
+    height:       $key_height;
+    margin-right: $key_margin_h;
+    line-height:  $key_height;
+    
+    float: left;
+    text-align:center;
+  }
+  
+  &.kb-layout-azerty .kb-alpha-pad {
+    .kb-row-idx-2 {
+      margin-left: ($key_width / 2);
+    }
+  
+    .kb-key-name-delete {
+      margin-left: ($key_width * 2) - ($key_margin_h * 2);
+    }
+  }
+  
+  &.kb-layout-qwerty .kb-alpha-pad {
+    .kb-row-idx-1 {
+      margin-left: ($key_width / 2);
+    }
+    
+    .kb-row-idx-2 {
+      margin-left: $key_width;
+    }
+
+    .kb-key-name-delete {
+      margin-left: $key_margin_h;
+    }
+  }
+  
+  .kb-alpha-pad {
+    .kb-key-name-shift {
+      width: (2 * $key_width) + (1 * $key_margin_h);
+    }
+    
+    .kb-key-name-return {
+      width: (2 * $key_width) + (1 * $key_margin_h);
+    }
+    
+    .kb-key-name-delete {
+      width: (2 * $key_width) + (1 * $key_margin_h);
+    }
+    
+    .kb-key-name-space {
+      width: (6 * $key_width) + (5 * $key_margin_h);
+    }
+  }
+  
+  .kb-numer-pad {
+    position: absolute;
+    top:   0;
+    right: 0;
+    
+    .kb-key-name-0 {
+      width: (3 * $key_width) + (2 * $key_margin_h);
+    }
+  }
+}
