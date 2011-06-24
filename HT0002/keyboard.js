@@ -20,6 +20,7 @@
     var target
     ,   keyboard
     ,   key
+    ,   shift
     ;
     
     target   = $(e.over || this);
@@ -47,14 +48,20 @@
           keyboard.trigger(
             { type: "keyboard_return"
             });
-          break;
         } else {
-          key = "\n";
+          keyboard.trigger(
+            { type: "keyboard_key_press"
+            , key:  "\n"
+            });
         }
-          
+        break;
+        
       case 'space':
-        if (key == 'space')
-          key = ' ';
+        keyboard.trigger(
+          { type: "keyboard_key_press"
+          , key:  ' '
+          });
+        break;
         
       default:
         keyboard.trigger(
