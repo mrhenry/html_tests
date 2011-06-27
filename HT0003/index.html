@@ -245,7 +245,7 @@ _queue_worker = function(){
   type    = task[1];
   answers = task[2];
   
-  $.getJSON("http://dig.jsondns.org/IN/"+escape(domain)+"/"+escape(type))
+  $.getJSON("http://dig.jsondns.org/IN/"+escape(domain)+"/"+escape(type)+'?callback=?')
     .success(
       function(e){
         var missing = []
