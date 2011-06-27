@@ -1,0 +1,358 @@
+<html>
+<head>
+  <script src="../lib/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+
+<style type="text/css" media="screen">
+
+body {
+  font-family: monospace;
+}
+
+h2 em {
+  display: inline-block;
+  width: 100px;
+}
+
+div#invalid {
+  border-left: 10px solid red;
+  padding-left: 10px;
+}
+
+div#valid {
+  border-left: 10px solid green;
+  padding-left: 10px;
+}
+
+div.row {
+  margin-bottom: 50px;
+  padding-left: 100px;
+}
+
+div.row h2 {
+  margin-left: -100px;
+}
+
+ul.missing {
+  background-color: #f6a2a2;
+}
+
+ul.stale {
+  background-color: #f6a2a2;
+}
+
+ul.correct {
+  background-color: #f0f0f0;
+}
+
+</style>
+
+  <script type="text/javascript" charset="utf-8">
+
+var zones =
+{ 'huishappaert.com.':
+  { 'huishappaert.com.':
+    { 'A':
+      [ '72.233.69.6'
+      , '74.200.243.251'
+      , '76.74.254.123'
+      , '74.200.244.59'
+      , '72.233.2.58'
+      , '76.74.254.120'
+      ]
+    , 'NS':
+      [ 'ns3.wordpress.com'
+      , 'ns1.wordpress.com'
+      , 'ns2.wordpress.com'
+      ]
+    }
+  , 'www':
+    { 'CNAME': ['huishappaert.com']
+    }
+  }
+, 'mrhenry.be.':
+  { 'mrhenry.be.':
+    { 'A':
+      [ '78.41.66.31'
+      ]
+    }
+  , 'www':
+    { 'CNAME': ['mrhenry.be']
+    }
+  }
+, 'flanders-classics.mrhenry.be.':
+  { 'bp-staging':             { 'A': ['188.93.97.30'] }
+  , 'bp':                     { 'A': ['188.93.97.30'] }
+  , 'ddv-staging':            { 'A': ['188.93.97.30'] }
+  , 'ddv':                    { 'A': ['188.93.97.30'] }
+  , 'fc-staging':             { 'A': ['188.93.97.30'] }
+  , 'fc':                     { 'A': ['188.93.97.30'] }
+  , 'gw-staging':             { 'A': ['188.93.97.30'] }
+  , 'gw':                     { 'A': ['188.93.97.30'] }
+  , 'ohn-staging':            { 'A': ['188.93.97.30'] }
+  , 'ohn':                    { 'A': ['188.93.97.30'] }
+  , 'rvv-staging':            { 'A': ['188.93.97.30'] }
+  , 'rvv':                    { 'A': ['188.93.97.30'] }
+  , 'sp-staging':             { 'A': ['188.93.97.30'] }
+  , 'sp':                     { 'A': ['188.93.97.30'] }
+  , 'www.bp-staging':         { 'A': ['188.93.97.30'] }
+  , 'www.bp':                 { 'A': ['188.93.97.30'] }
+  , 'www.ddv-staging':        { 'A': ['188.93.97.30'] }
+  , 'www.ddv':                { 'A': ['188.93.97.30'] }
+  , 'www.fc-staging':         { 'A': ['188.93.97.30'] }
+  , 'www.fc':                 { 'A': ['188.93.97.30'] }
+  , 'www.gw-staging':         { 'A': ['188.93.97.30'] }
+  , 'www.gw':                 { 'A': ['188.93.97.30'] }
+  , 'www.ohn-staging':        { 'A': ['188.93.97.30'] }
+  , 'www.ohn':                { 'A': ['188.93.97.30'] }
+  , 'www.rvv-staging':        { 'A': ['188.93.97.30'] }
+  , 'www.rvv':                { 'A': ['188.93.97.30'] }
+  , 'www.sp-staging':         { 'A': ['188.93.97.30'] }
+  , 'www.sp':                 { 'A': ['188.93.97.30'] }
+  
+  , 'belgiancycling.com.':     { 'A': ['188.93.97.30'] }
+  , 'ddvl.eu.':                { 'A': ['188.93.97.30'] }
+  , 'debrabantsepijl.be.':     { 'A': ['188.93.97.30'] }
+  , 'dwarsdoorvlaanderen.be.': { 'A': ['188.93.97.30'] }
+  , 'flandersclassics.be.':    { 'A': ['188.93.97.30'] }
+  , 'gent-wevelgem.be.':       { 'A': ['188.93.97.30'] }
+  , 'laflechebrabanconne.be.': { 'A': ['188.93.97.30'] }
+  , 'omloop.nieuwsblad.be.':   { 'A': ['188.93.97.30'] }
+  , 'omloophetnieuwsblad.be.': { 'A': ['188.93.97.30'] }
+  , 'rondevanvlaanderen.be.':  { 'A': ['188.93.97.30'] }
+  , 'rondevanvlaanderen.org.': { 'A': ['188.93.97.30'] }
+  , 'rvv.be.':                 { 'A': ['188.93.97.30'] }
+  , 'scheldeprijs.be.':        { 'A': ['188.93.97.30'] }
+  
+  , 'www.belgiancycling.com.':     { 'A': ['188.93.97.30'] }
+  , 'www.ddvl.eu.':                { 'A': ['188.93.97.30'] }
+  , 'www.debrabantsepijl.be.':     { 'A': ['188.93.97.30'], 'CNAME': ['debrabantsepijl.be'] }
+  , 'www.dwarsdoorvlaanderen.be.': { 'A': ['188.93.97.30'] }
+  , 'www.flandersclassics.be.':    { 'A': ['188.93.97.30'] }
+  , 'www.gent-wevelgem.be.':       { 'A': ['188.93.97.30'] }
+  , 'www.laflechebrabanconne.be.': { 'A': ['188.93.97.30'], 'CNAME': ['laflechebrabanconne.be'] }
+  , 'www.omloop.nieuwsblad.be.':   { 'A': ['188.93.97.30'] }
+  , 'www.omloophetnieuwsblad.be.': { 'CNAME': ['omloophetnieuwsblad.be'] }
+  , 'www.rondevanvlaanderen.be.':  { 'A': ['188.93.97.30'] }
+  , 'www.rondevanvlaanderen.org.': { 'A': ['188.93.97.30'] }
+  , 'www.rvv.be.':                 { 'A': ['188.93.97.30'] }
+  , 'www.scheldeprijs.be.':        { 'A': ['188.93.97.30'] }
+  }
+};
+
+var queue = []
+;
+
+var _verify_zones
+,   _verify_zone
+,   _verify_domain
+,   _verify_record
+,   _load_zones
+,   _queue_worker
+,   _update_ui
+;
+
+_update_ui = function(domain, type, correct, stale, missing) {
+  var id
+  ,   row
+  ,   valid
+  ,   correct_ul
+  ,   stale_ul
+  ,   missing_ul
+  ,   i
+  ;
+  
+  id    = escape(domain + "-" + type).replace(/\.|\s/g, '_');
+  valid = (missing.length == 0 && stale.length == 0);
+  
+  $('#'+id).remove();
+  
+  row = $('<div/>')
+    .attr('id', id)
+    .addClass('row')
+    .addClass(valid ? 'valid' : 'invalid');
+  
+  $('<h2></h2>')
+    .text(domain)
+    .prepend($('<em>'+type+'</em>'))
+    .appendTo(row);
+  
+  if (correct.length > 0) {
+    correct_ul = $('<ul class="correct"></ul>')
+      .appendTo(row);
+    
+    for (i in correct) {
+      $('<li></li>')
+        .text(correct[i])
+        .appendTo(correct_ul);
+    }
+  }
+  
+  if (stale.length > 0) {
+    $('<h3>Stale:</h3>')
+      .appendTo(row);
+    stale_ul = $('<ul class="stale"></ul>')
+      .appendTo(row);
+    
+    for (i in stale) {
+      $('<li></li>')
+        .text(stale[i])
+        .appendTo(stale_ul);
+    }
+  }
+  
+  if (missing.length > 0) {
+    $('<h3>Missing:</h3>')
+      .appendTo(row);
+    missing_ul = $('<ul class="missing"></ul>')
+      .appendTo(row);
+    
+    for (i in missing) {
+      $('<li></li>')
+        .text(missing[i])
+        .appendTo(missing_ul);
+    }
+  }
+  
+  function sortAlpha(a,b){  
+    return a.id > b.id ? 1 : -1;  
+  }
+  
+  if (valid) {
+    $('#valid').prepend(row);
+    $('#valid .row').sort(sortAlpha).appendTo('#valid');
+  } else {
+    $('#invalid').prepend(row);
+    $('#invalid .row').sort(sortAlpha).appendTo('#invalid');
+  }
+  
+};
+
+_queue_worker = function(){
+  var task
+  ,   domain
+  ,   type
+  ,   answers
+  ;
+  
+  
+  task = queue.shift();
+  if (!task) {
+    setTimeout(_load_zones, 20000);
+    return;
+  }
+  
+  domain  = task[0];
+  type    = task[1];
+  answers = task[2];
+  
+  $.getJSON("http://dig.jsondns.org/IN/"+escape(domain)+"/"+escape(type))
+    .success(
+      function(e){
+        var missing = []
+        ,   stale   = []
+        ,   correct = []
+        ,   i
+        ;
+        
+        for (i in e.answer) {
+          if (e.answer[i].type != type) { continue; }
+          
+          if (answers.indexOf(e.answer[i].rdata) >= 0) {
+            correct.push(e.answer[i].rdata);
+          } else {
+            stale.push(e.answer[i].rdata);
+          }
+        }
+        
+        for (i in answers) {
+          if (correct.indexOf(answers[i]) == -1 && stale.indexOf(answers[i]) == -1) {
+            missing.push(answers[i]);
+          }
+        }
+        
+        _update_ui(domain, type, correct, stale, missing);
+      })
+    .error(
+      function(e){
+        var missing = answers
+        ,   stale   = []
+        ,   correct = []
+        ;
+        
+        _update_ui(domain, type, correct, stale, missing);
+      })
+    .complete(
+      function(){
+        setTimeout(_queue_worker, 0);
+      })
+    ;
+};
+
+_load_zones = function(){
+  _verify_zones(zones);
+  _queue_worker();
+};
+
+_verify_zones = function(zones){
+  var zone
+  ,   fqn
+  ;
+  
+  for (zone in zones) {
+    if (zone[zone.length - 1] == '.') {
+      fqn = zone.substr(0, zone.length - 1);
+    } else {
+      fqn = zone;
+    }
+    
+    _verify_zone(fqn, zones[zone]);
+  }
+};
+
+_verify_zone = function(name, zone){
+  var domain
+  ,   fqn
+  ;
+  
+  for (domain in zone) {
+    if (domain[domain.length - 1] == '.') {
+      fqn = domain.substr(0, domain.length - 1);
+    } else {
+      fqn = domain + '.' + name;
+    }
+    
+    _verify_domain(fqn, zone[domain]);
+  }
+};
+
+_verify_domain = function(domain, records){
+  var type
+  ,   req
+  ;
+  
+  for (type in records) {
+    req = _verify_record(domain, type, records[type]);
+  }
+  
+  req;
+};
+
+_verify_record = function(domain, type, answers){
+  queue.push([domain, type, answers]);
+};
+
+_load_zones();
+
+  </script>
+</head>
+<body>
+
+<div id="invalid">
+  
+</div>
+<div id="valid">
+  
+</div>
+
+</body>
+</html>
