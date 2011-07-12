@@ -1,0 +1,17 @@
+@import url('reset.css');
+
+body {
+ background: #fff;
+ height: 100%;
+ overflow: hidden;
+ width: 100%;
+}
+
+#kaleidoscope_wrapper {
+ font-size: 0;
+ line-height: 0;
+ overflow: hidden;
+ position: absolute;
+}
+
+canvas { background: #fff }
