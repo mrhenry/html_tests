@@ -1,7 +1,10 @@
+// Compile using -> 'sass --watch stylesheets/stylesheet.scss'
+//
+
 @import url('reset.css');
 
 body {
- background: #fff;
+ background: #000;
  height: 100%;
  overflow: hidden;
  width: 100%;
@@ -14,4 +17,4 @@ body {
  position: absolute;
 }
 
-canvas { background: #fff }
+canvas { background: #fff url('../images/background.png') 0 0 repeat }
