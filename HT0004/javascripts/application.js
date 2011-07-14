@@ -1,5 +1,6 @@
 (function() {
-  var dom_init, kaleidoscope, window_init;
+  var R_360DEG, dom_init, kaleidoscope, window_init;
+  R_360DEG = 360 * (Math.PI / 180);
   kaleidoscope = {
     $cntnr: void 0,
     $canvas: void 0,
@@ -30,12 +31,9 @@
       return $(document).trigger('mousemove');
     },
     draw_slice: function(flip, c, rb, canv_width, canv_height, normal_0, slice) {
-      var R_360DEG;
-      R_360DEG = 360 * (Math.PI / 180);
       c.save();
       c.beginPath();
       slice();
-      c.clip();
       rb = R_360DEG - rb;
       c.translate((canv_width / 2.0) - (Math.cos(rb) * (normal_0.img_w / 2)), (canv_height / 2.0) - (Math.sin(rb) * (normal_0.img_w / 2)));
       c.rotate(rb);
@@ -46,11 +44,10 @@
       }
       c.closePath();
       c.fill();
-      c.stroke();
       return c.restore();
     },
     draw: function(offset_x, offset_y) {
-      var R_360DEG, R_90DEG, a_x, a_y, b_x, b_y, c, c_x, c_y, canv_height, canv_width, center_x, center_y, d_a, d_b, d_c, d_x, d_y, e_x, e_y, flipper, i, img, normal_0, p, pattern, r_a, rb, rs, slice_count, _results;
+      var a_x, a_y, b_x, b_y, c, c_x, c_y, canv_height, canv_width, center_x, center_y, d_a, d_b, d_c, d_x, d_y, e_x, e_y, flipper, i, img, normal_0, p, pattern, r_a, rb, rs, slice_count, _results;
       canv_width = kaleidoscope.$canvas[0].width;
       canv_height = kaleidoscope.$canvas[0].height;
       c = this.$context;
@@ -58,7 +55,6 @@
       offset_y || (offset_y = 0);
       img = document.getElementById('cnvs_1');
       pattern = c.createPattern(img, 'repeat');
-      c.strokeStyle = 'rgba(0, 0, 0, 0.4)';
       c.fillStyle = pattern;
       center_x = canv_width / 2;
       center_y = canv_height / 2;
@@ -66,8 +62,6 @@
         img_w: img.width,
         img_h: img.height
       };
-      R_90DEG = 90 * (Math.PI / 180);
-      R_360DEG = 360 * (Math.PI / 180);
       slice_count = 8;
       rs = R_360DEG / slice_count;
       p = canv_width > canv_height ? canv_width : canv_height;
@@ -94,10 +88,17 @@
         }
         rb = r_a;
         this.draw_slice(flipper, c, rb, canv_width, canv_height, normal_0, function() {
-          c.moveTo(canv_width / 2, canv_height / 2);
-          c.lineTo(a_x, a_y);
-          c.lineTo(b_x, b_y);
-          return c.lineTo(canv_width / 2, canv_height / 2);
+          var _ax, _ay, _bx, _by, _cx, _cy;
+          _cx = (0.5 + center_x) << 0;
+          _cy = (0.5 + center_y) << 0;
+          _ax = (0.5 + a_x) << 0;
+          _ay = (0.5 + a_y) << 0;
+          _bx = (0.5 + b_x) << 0;
+          _by = (0.5 + b_y) << 0;
+          c.moveTo(_cx, _cy);
+          c.lineTo(_ax, _ay);
+          c.lineTo(_bx, _by);
+          return c.lineTo(_cx, _cy);
         });
         _results.push(flipper = !flipper);
       }

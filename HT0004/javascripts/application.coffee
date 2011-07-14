@@ -1,5 +1,7 @@
 # Compile using -> 'coffee -wc javascripts/application.coffee'
-#
+R_360DEG = 360 * (Math.PI / 180)
+
+
 
 kaleidoscope = {
   $cntnr : undefined
@@ -24,7 +26,6 @@ kaleidoscope = {
     kaleidoscope.$canvas[0].height = $(window).height()
     
     kaleidoscope.draw(kaleidoscope.current_offset.x, kaleidoscope.current_offset.y)
-    # kaleidoscope.draw(undefined, undefined)
   
   new_canvas : () ->
     this.$cntnr.append('<canvas width="' + $(window).width() + '" height="' + $(window).height() + '"></canvas>')
@@ -33,15 +34,11 @@ kaleidoscope = {
     this.$context = this.$canvas[0].getContext('2d')
     
     $(document).trigger('mousemove')
-    # $(window).trigger('resize')
   
   draw_slice: (flip, c, rb, canv_width, canv_height, normal_0, slice) ->
-    R_360DEG = 360 * (Math.PI / 180)
-    
     c.save()
     c.beginPath()
     slice()
-    c.clip()
     
     rb = R_360DEG - rb
     
@@ -51,14 +48,10 @@ kaleidoscope = {
       
     c.rotate(rb)
     
-    if flip
-      c.scale(-1, -1)
-    else
-      c.scale(1, -1)
+    if flip then c.scale(-1, -1) else c.scale(1, -1)
     
     c.closePath()
     c.fill()
-    c.stroke()
     c.restore()
   
   draw : (offset_x, offset_y) ->
@@ -70,10 +63,8 @@ kaleidoscope = {
     offset_x ||= 0
     offset_y ||= 0
     
-    # Blocks
     img = document.getElementById('cnvs_1')
     pattern = c.createPattern(img, 'repeat')
-    c.strokeStyle = 'rgba(0, 0, 0, 0.4)'
     c.fillStyle = pattern
     
     center_x = canv_width / 2
@@ -83,12 +74,9 @@ kaleidoscope = {
       img_w     : img.width
       img_h     : img.height
     
-    R_90DEG = 90 * (Math.PI / 180)
-    R_360DEG = 360 * (Math.PI / 180)
     slice_count = 8
     rs = R_360DEG / slice_count
     p = if canv_width > canv_height then canv_width else canv_height
-    # p = canv_height * 0.45
     p = p * 1.5
     flipper = false
     
@@ -115,48 +103,26 @@ kaleidoscope = {
       
       
       r_a = 2 * Math.atan( Math.sqrt( ( Math.pow(d_c, 2) - Math.pow(d_b - d_a, 2) ) / ( Math.pow(d_b + d_a, 2) - Math.pow(d_c, 2)) ))
-      
-      if d_x < center_x
-        r_a = R_360DEG - r_a
+      r_a = R_360DEG - r_a if d_x < center_x
       
       rb = r_a
       
+      
       this.draw_slice flipper, c, rb, canv_width, canv_height, normal_0, () ->
-        c.moveTo(canv_width / 2, canv_height / 2)
-        c.lineTo(a_x, a_y)
-        c.lineTo(b_x, b_y)
-        c.lineTo(canv_width / 2, canv_height / 2)
+        _cx = (0.5 + center_x) << 0;
+        _cy = (0.5 + center_y) << 0;
+        _ax = (0.5 + a_x) << 0;
+        _ay = (0.5 + a_y) << 0;
+        _bx = (0.5 + b_x) << 0;
+        _by = (0.5 + b_y) << 0;
+        
+        c.moveTo(_cx, _cy)
+        c.lineTo(_ax, _ay)
+        c.lineTo(_bx, _by)
+        c.lineTo(_cx, _cy)
+      
       
       flipper = !flipper
-      
-      # c.save()
-      # c.beginPath()
-      # c.strokeStyle = "#f00";
-      # c.moveTo(canv_width / 2, canv_height / 2)
-      # c.lineTo(d_x, d_y)
-      # c.closePath()
-      # c.stroke()
-      # c.restore()
-      # 
-      # c.save()
-      # c.beginPath()
-      # c.strokeStyle = "#00f";
-      # c.moveTo(canv_width / 2, canv_height / 2)
-      # c.lineTo(a_x, a_y)
-      # c.closePath()
-      # c.stroke()
-      # c.restore()
-      # 
-      # rb_x = (p) * Math.sin(rb) + (canv_width / 2)
-      # rb_y = (p) * Math.cos(rb) + (canv_height / 2)
-      # c.save()
-      # c.beginPath()
-      # c.strokeStyle = "#0f0";
-      # c.moveTo(canv_width / 2, canv_height / 2)
-      # c.lineTo(rb_x, rb_y)
-      # c.closePath()
-      # c.stroke()
-      # c.restore()
 }
 
 
